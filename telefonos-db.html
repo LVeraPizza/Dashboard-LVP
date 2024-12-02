@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telefonos DB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2><a href="dashboard.html">Admin Dashboard</a></h2>
+            <ul>
+                <li><a href="productos-disponibles.html">Productos Disponibles</a></li>
+                <li><a href="telefonos-db.html">Telefonos DB</a></li>
+                <li><a href="promociones-activas.html">Promociones Activas</a></li>
+                <li><a href="puntos-acumulados.html">Puntos Acumulados</a></li>
+                <li><a href="pedidos-realizados.html">Pedidos Realizados</a></li>
+                <header class="dashboard-header">
+
+                    <!-- Botón de Salir -->
+                    <button class="logout-button" onclick="cerrarSesion()">Salir de la sesión</button>
+                </header>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <div class="main-content-1">
+            <h1>Telefonos DB</h1>
+            <table id="telefonos-table">
+                <thead>
+                    <tr>
+                        <th>Telefonos</th>
+                        <th>Puntos</th>
+                    </tr>
+                </thead>
+                <tbody id="telefonos-tabla">
+                    <!-- Los datos de los telefonos se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Script para conectar a Firebase y obtener datos -->
+   <script type="module">
+    // Configuración de Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCzMNKimcw1kaaJlMdTKj7RAdlsHyaImBk",
+        authDomain: "vera-pizza-app.firebaseapp.com",
+        databaseURL: "https://vera-pizza-app-default-rtdb.firebaseio.com/",
+        projectId: "vera-pizza-app",
+        storageBucket: "vera-pizza-app.appspot.com",
+        messagingSenderId: "783988757356",
+        appId: "1:783988757356:web:c66d3f2571aff0f125d949",
+        measurementId: "G-FNLSPHKXFW"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Referencia al nodo 'clientes' en la base de datos
+    const telefonosRef = ref(database, 'clientes');
+
+    // Obtener los datos de la base de datos y cargarlos en la tabla
+    get(telefonosRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const clientes = snapshot.val();
+            const tabla = document.getElementById("telefonos-tabla");
+
+            // Recorrer los datos y agregarlos a la tabla
+            for (const telefono in clientes) {
+                const datos = clientes[telefono]; // Obtiene los datos de cada cliente
+                const fila = document.createElement("tr");
+
+                fila.innerHTML = `
+                    <td>${telefono}</td>
+                    <td>${datos.puntos}</td>
+                `;
+                tabla.appendChild(fila);
+            }
+        } else {
+            console.log("No hay datos disponibles.");
+        }
+    }).catch((error) => {
+        console.error("Error al obtener datos:", error);
+    });
+
+    function cerrarSesion() {
+        alert("Sesión cerrada correctamente.");
+        window.location.href = "index.html"; // Cambia a tu página de inicio de sesión
+    }
+</script>
+
+</body>
+
+</html>

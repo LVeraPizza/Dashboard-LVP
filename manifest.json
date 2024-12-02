@@ -1,0 +1,17 @@
+{
+    "start_url": "https://lverapizza.github.io/Dashboard-LVP/principal.html","name": " La Vera Pizza",
+    "short_name": "LVP",
+    "icons": [
+        {
+            "src": "https://lverapizza.github.io/Dashboard-LVP/logo_vp.png","sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://lverapizza.github.io/Dashboard-LVP/logo_vp.png","sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "display": "standalone"
+}
